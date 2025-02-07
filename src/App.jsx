@@ -20,12 +20,15 @@ export default function App(){
     //CREATE POST
     const handleSubmitForm = (event) => {
         event.preventDefault();
-        axios.post("", postData).then((response) => {
-            setPostList((currentPost) => [...currentPost, response.data]);
-            setPostData(postPrev);
+        axios.post('http://localhost:3000/post/', postData).then((response) => {
+            setPostList(response.data);
+           
         });
       };
    useEffect(fetchPost,[])
+   const handleFormData = (fieldName, value)=>{
+   setPostData((currentFormData) =>({...currentFormData,[fieldName]: value}));
+   }
   return(
     <>
     <h1>Post ricette</h1>
@@ -45,21 +48,30 @@ export default function App(){
             <label htmlFor="title">TITOLO</label>
             <input type="text" 
             placeholder="inserici il titolo del post"
-            value={setPostData.title}
+            value={postData.title}
+            onChange={(e)=> handleFormData("title", e.target.value)}
             />
             <label htmlFor="title">CONTENUTO</label>
             <input type="text" 
             placeholder="inserici il contenuto del post"
-            value={setPostData.content}
+            value={postData.content}
+            onChange={(e)=> handleFormData("content", e.target.value)}
             />
             <label htmlFor="title">TAGS</label>
             <input type="text" 
             placeholder="inserici i tag del post"
-            value={setPostData. tags}
+            value={postData.tags}
+            onChange={(e)=> handleFormData("tags", e.target.value)}
             />
-
+             <label htmlFor="title">IMAGE</label>
+            <input type="url" 
+            placeholder="inserici l'immagine del post"
+            value={postData.image}
+            onChange={(e)=> handleFormData("image", e.target.value)}
+            />
+            <button type="submit">Crea post</button>
         </form>
-        <button type="submit">Crea post</button>
+        
 
     </div>
     </>
